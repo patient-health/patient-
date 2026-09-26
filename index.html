@@ -7,7 +7,11 @@
   <title>PACIENT+</title>
 
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
     body{
       min-height:100vh;
@@ -42,7 +46,11 @@
       display:flex;
       flex-direction:column;
       justify-content:center;
-      background:linear-gradient(135deg,rgba(11,45,62,.92),rgba(6,25,38,.88));
+      background:linear-gradient(
+        135deg,
+        rgba(11,45,62,.92),
+        rgba(6,25,38,.88)
+      );
     }
 
     .brand{
@@ -70,7 +78,9 @@
       letter-spacing:-1px;
     }
 
-    .brand-name span{color:#57dcea}
+    .brand-name span{
+      color:#57dcea;
+    }
 
     .intro h1{
       font-size:48px;
@@ -80,7 +90,9 @@
       max-width:570px;
     }
 
-    .intro h1 span{color:#5de0ed}
+    .intro h1 span{
+      color:#5de0ed;
+    }
 
     .intro p{
       color:#a9c2cf;
@@ -140,7 +152,9 @@
       margin-bottom:30px;
     }
 
-    .field{margin-bottom:18px}
+    .field{
+      margin-bottom:18px;
+    }
 
     .field label{
       display:block;
@@ -162,6 +176,10 @@
       font-size:15px;
     }
 
+    .field input::placeholder{
+      color:#66808d;
+    }
+
     .field input:focus{
       border-color:#25bfd4;
       box-shadow:0 0 0 3px rgba(37,191,212,.10);
@@ -179,11 +197,18 @@
       font-weight:900;
       margin-top:5px;
       box-shadow:0 12px 28px rgba(25,175,207,.20);
+      transition:.2s;
+    }
+
+    .login-button:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.05);
     }
 
     .login-button:disabled{
       opacity:.65;
       cursor:not-allowed;
+      transform:none;
     }
 
     .register{
@@ -208,10 +233,16 @@
       margin-top:15px;
       text-align:center;
       font-size:13px;
+      line-height:1.5;
     }
 
-    .message.error{color:#ff9d9d}
-    .message.success{color:#71e3b4}
+    .message.error{
+      color:#ff9d9d;
+    }
+
+    .message.success{
+      color:#71e3b4;
+    }
 
     .footer{
       margin-top:35px;
@@ -221,24 +252,40 @@
     }
 
     @media(max-width:800px){
-      body{padding:14px}
+      body{
+        padding:14px;
+      }
 
       .page{
         grid-template-columns:1fr;
         min-height:auto;
       }
 
-      .intro{padding:40px 28px}
+      .intro{
+        padding:40px 28px;
+      }
 
-      .intro h1{font-size:36px}
+      .intro h1{
+        font-size:36px;
+      }
 
-      .login-area{padding:38px 28px}
+      .login-area{
+        padding:38px 28px;
+      }
     }
 
     @media(max-width:480px){
-      .brand-name{font-size:28px}
-      .intro h1{font-size:31px}
-      .intro p{font-size:15px}
+      .brand-name{
+        font-size:28px;
+      }
+
+      .intro h1{
+        font-size:31px;
+      }
+
+      .intro p{
+        font-size:15px;
+      }
     }
   </style>
 </head>
@@ -299,6 +346,7 @@
 
         <div class="field">
           <label for="email">Email</label>
+
           <input
             type="email"
             id="email"
@@ -310,6 +358,7 @@
 
         <div class="field">
           <label for="password">Fjalëkalimi</label>
+
           <input
             type="password"
             id="password"
@@ -319,17 +368,28 @@
           >
         </div>
 
-        <button class="login-button" id="loginButton" type="submit">
+        <button
+          class="login-button"
+          id="loginButton"
+          type="submit"
+        >
           Hyr në PACIENT+
         </button>
 
-        <div class="message" id="message"></div>
+        <div
+          class="message"
+          id="message"
+          aria-live="polite"
+        ></div>
 
       </form>
 
       <div class="register">
         Nuk keni llogari?
-        <button type="button" id="registerButton">
+        <button
+          type="button"
+          id="registerButton"
+        >
           Krijo llogari
         </button>
       </div>
@@ -344,12 +404,205 @@
 
 </main>
 
+<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
 <script>
-  const SUPABASE_URL = "https://izrkvynsdikpevdhdtef.supabase.co";
+  "use strict";
 
-  const SUPABASE_KEY = "sb_publishable_6eexQFM_g7BCaLK9V_DuZQ_oxwFbmSK";
+  const SUPABASE_URL =
+    "https://izrkvynsdikpevdhdtef.supabase.co";
 
-  const supabas
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_6eexQFM_g7BCaLK9V_DuZQ_oxwFbmSK";
+
+  const message = document.getElementById("message");
+  const loginForm = document.getElementById("loginForm");
+  const loginButton = document.getElementById("loginButton");
+  const registerButton = document.getElementById("registerButton");
+
+  function showMessage(text, type){
+    message.textContent = text;
+    message.className = "message " + (type || "");
+  }
+
+  function startSupabase(){
+
+    if(!window.supabase){
+      console.error("PACIENT+: Supabase library nuk u ngarkua.");
+      showMessage(
+        "Nuk u ngarkua lidhja me sistemin. Rifreskoni faqen.",
+        "error"
+      );
+      return null;
+    }
+
+    try{
+
+      const client = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+      console.log("PACIENT+: Supabase u inicializua.");
+
+      return client;
+
+    }catch(error){
+
+      console.error(
+        "PACIENT+: Gabim gjatë inicializimit:",
+        error
+      );
+
+      showMessage(
+        "Gabim gjatë lidhjes me sistemin.",
+        "error"
+      );
+
+      return null;
+    }
+  }
+
+  const supabaseClient = startSupabase();
+
+  loginForm.addEventListener("submit", async function(event){
+
+    event.preventDefault();
+
+    if(!supabaseClient){
+      showMessage(
+        "Lidhja me sistemin nuk është aktive.",
+        "error"
+      );
+      return;
+    }
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    if(!email || !password){
+      showMessage(
+        "Plotësoni email-in dhe fjalëkalimin.",
+        "error"
+      );
+      return;
+    }
+
+    loginButton.disabled = true;
+    loginButton.textContent = "Po hyn...";
+    showMessage("", "");
+
+    try{
+
+      const result =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if(result.error){
+
+        console.error(
+          "PACIENT+ LOGIN ERROR:",
+          result.error
+        );
+
+        showMessage(
+          "Hyrja dështoi: " + result.error.message,
+          "error"
+        );
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Hyr në PACIENT+";
+
+        return;
+      }
+
+      console.log(
+        "PACIENT+ LOGIN SUKSES:",
+        result.data
+      );
+
+      showMessage(
+        "Hyrja u krye me sukses.",
+        "success"
+      );
+
+      setTimeout(function(){
+        window.location.href = "patient.html";
+      },700);
+
+    }catch(error){
+
+      console.error(
+        "PACIENT+ LOGIN EXCEPTION:",
+        error
+      );
+
+      showMessage(
+        "Ndodhi një gabim gjatë hyrjes.",
+        "error"
+      );
+
+      loginButton.disabled = false;
+      loginButton.textContent = "Hyr në PACIENT+";
+    }
+
+  });
+
+  registerButton.addEventListener("click", function(){
+
+    showMessage(
+      "Regjistrimi i pacientëve do të aktivizohet në hapin tjetër.",
+      "success"
+    );
+
+  });
+
+  async function checkExistingSession(){
+
+    if(!supabaseClient){
+      return;
+    }
+
+    try{
+
+      const result =
+        await supabaseClient.auth.getSession();
+
+      if(
+        result.data &&
+        result.data.session
+      ){
+
+        console.log(
+          "PACIENT+: Sesion ekzistues."
+        );
+
+        /*
+          patient.html do të krijohet në hapin tjetër.
+        */
+
+      }
+
+    }catch(error){
+
+      console.error(
+        "PACIENT+ SESSION ERROR:",
+        error
+      );
+
+    }
+  }
+
+  checkExistingSession();
+
+</script>
+
+</body>
+</html>
 ```
