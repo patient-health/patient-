@@ -4,520 +4,273 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>PACIENT+ | Paneli i pacientit</title>
+  <title>PACIENT+ | Bisedat e mia</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     body {
-      min-height: 100vh;
+      margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-
-      background:
-        radial-gradient(
-          circle at 10% 10%,
-          rgba(30, 190, 215, 0.12),
-          transparent 30%
-        ),
-        linear-gradient(
-          135deg,
-          #06131d,
-          #0a202d 55%,
-          #07151f
-        );
-
-      color: #eefaff;
+      background: #f4f7fb;
+      color: #172033;
     }
 
     .topbar {
-      height: 74px;
-      padding: 0 28px;
-
+      background: #0f172a;
+      color: white;
+      padding: 18px 24px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-
-      border-bottom: 1px solid rgba(120, 210, 225, 0.12);
-
-      background: rgba(5, 20, 30, 0.85);
-
-      backdrop-filter: blur(12px);
+      align-items: center;
+      gap: 20px;
     }
 
     .brand {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .user-area {
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-
-    .brand-icon {
-      width: 42px;
-      height: 42px;
-
-      border-radius: 13px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 22px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #19c4d8,
-          #1679b6
-        );
-    }
-
-    .brand-name {
-      font-size: 24px;
-      font-weight: 900;
-    }
-
-    .brand-name span {
-      color: #57dcea;
+      gap: 14px;
+      font-size: 14px;
     }
 
     .logout {
-      border: 1px solid #294655;
-      background: #0c2535;
-      color: #cde4ec;
-
-      padding: 10px 16px;
-
-      border-radius: 10px;
-
+      border: 1px solid rgba(255,255,255,.3);
+      background: transparent;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 8px;
       cursor: pointer;
-
-      font-weight: 700;
     }
 
     .logout:hover {
-      border-color: #25bfd4;
-      color: #fff;
+      background: rgba(255,255,255,.1);
     }
 
     .container {
-      width: 100%;
-      max-width: 1200px;
-
-      margin: 0 auto;
-
-      padding: 35px 24px;
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px;
     }
 
     .welcome {
-      margin-bottom: 28px;
+      margin-bottom: 25px;
     }
 
     .welcome h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
+      margin: 0 0 8px;
+      font-size: 30px;
     }
 
     .welcome p {
-      color: #8faebb;
-      font-size: 15px;
+      margin: 0;
+      color: #64748b;
     }
 
-    .grid {
-      display: grid;
-
-      grid-template-columns: 1fr 340px;
-
-      gap: 24px;
-    }
-
-    .card {
-      background: rgba(10, 31, 45, 0.88);
-
-      border: 1px solid rgba(105, 205, 225, 0.14);
-
-      border-radius: 20px;
-
-      padding: 25px;
-
-      box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.20);
-    }
-
-    .card-header {
+    .actions {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-
-      margin-bottom: 22px;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 15px;
     }
 
-    .card-header h2 {
-      font-size: 20px;
+    .actions h2 {
+      margin: 0;
+      font-size: 21px;
     }
 
-    .new-button {
+    .primary-btn {
       border: 0;
-
-      border-radius: 10px;
-
-      padding: 11px 15px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #59e0eb,
-          #19afcf
-        );
-
-      color: #03131b;
-
-      font-weight: 900;
-
+      background: #2563eb;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 9px;
       cursor: pointer;
-    }
-
-    .new-button:hover {
-      filter: brightness(1.05);
-    }
-
-    .empty {
-      text-align: center;
-
-      padding: 55px 20px;
-
-      color: #78939f;
-    }
-
-    .empty-icon {
-      font-size: 45px;
-      margin-bottom: 15px;
-    }
-
-    .empty h3 {
-      color: #c5dce4;
-      margin-bottom: 8px;
-    }
-
-    .empty p {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .profile {
-      display: flex;
-      flex-direction: column;
-
-      gap: 18px;
-    }
-
-    .profile-icon {
-      width: 70px;
-      height: 70px;
-
-      border-radius: 22px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 30px;
-
-      background: rgba(30, 191, 213, 0.12);
-
-      border: 1px solid rgba(50, 207, 224, 0.2);
-    }
-
-    .profile-label {
-      color: #708995;
-
-      font-size: 11px;
-
-      text-transform: uppercase;
-
-      letter-spacing: 0.8px;
-
-      margin-bottom: 5px;
-    }
-
-    .profile-value {
-      color: #dceef4;
-
-      font-size: 14px;
-
-      word-break: break-word;
-    }
-
-    .status {
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 7px;
-
-      color: #71e3b4;
-
-      font-size: 13px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-
-      border-radius: 50%;
-
-      background: #4ed39e;
-
-      box-shadow:
-        0 0 10px rgba(78, 211, 158, 0.6);
-    }
-
-    /* FORM */
-
-    .form-box {
-      display: none;
-
-      margin-bottom: 24px;
-
-      padding: 22px;
-
-      border-radius: 16px;
-
-      background: #081d2b;
-
-      border: 1px solid #294655;
-    }
-
-    .form-box.active {
-      display: block;
-    }
-
-    .form-title {
-      font-size: 19px;
-      font-weight: 800;
-
-      margin-bottom: 18px;
-    }
-
-    .field {
-      margin-bottom: 16px;
-    }
-
-    .field label {
-      display: block;
-
-      margin-bottom: 7px;
-
-      color: #bdd2dc;
-
-      font-size: 13px;
-
       font-weight: 700;
     }
 
-    .field input,
-    .field textarea {
-      width: 100%;
+    .primary-btn:hover {
+      background: #1d4ed8;
+    }
 
-      border: 1px solid #294655;
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, .07);
+      border: 1px solid #e5e7eb;
+    }
 
-      border-radius: 11px;
+    .form-card {
+      display: none;
+      margin-bottom: 25px;
+    }
 
-      background: #0c2535;
+    .form-card.show {
+      display: block;
+    }
 
-      color: #f2fbff;
+    .form-card h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
 
-      padding: 12px 14px;
-
-      outline: none;
-
-      font-family: inherit;
-
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 7px;
       font-size: 14px;
     }
 
-    .field input {
-      height: 48px;
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 17px;
+      outline: none;
     }
 
-    .field textarea {
+    input:focus,
+    textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+    }
+
+    textarea {
       min-height: 130px;
-
       resize: vertical;
-    }
-
-    .field input:focus,
-    .field textarea:focus {
-      border-color: #25bfd4;
-
-      box-shadow:
-        0 0 0 3px rgba(37, 191, 212, 0.10);
     }
 
     .form-buttons {
       display: flex;
-
       gap: 10px;
-
-      margin-top: 18px;
     }
 
-    .send-button,
-    .cancel-button {
-      border: 0;
-
-      border-radius: 10px;
-
+    .secondary-btn {
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #334155;
       padding: 12px 18px;
-
+      border-radius: 9px;
       cursor: pointer;
-
-      font-weight: 800;
+      font-weight: 600;
     }
 
-    .send-button {
-      background:
-        linear-gradient(
-          135deg,
-          #59e0eb,
-          #19afcf
-        );
-
-      color: #03131b;
+    .secondary-btn:hover {
+      background: #f8fafc;
     }
 
-    .send-button:disabled {
-      opacity: 0.6;
-
-      cursor: not-allowed;
+    .message {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      display: none;
+      font-size: 14px;
     }
 
-    .cancel-button {
-      background: #142e3d;
-
-      color: #b8d0da;
-
-      border: 1px solid #294655;
+    .message.show {
+      display: block;
     }
 
-    /* CONVERSATION */
+    .message.error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
 
-    .conversation-item {
+    .message.success {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    .conversation {
+      border: 1px solid #e2e8f0;
+      border-radius: 11px;
       padding: 18px;
-
       margin-bottom: 12px;
-
-      border-radius: 14px;
-
-      background: #0c2535;
-
-      border: 1px solid #294655;
-
-      cursor: pointer;
-
-      transition: 0.2s;
+      background: #fff;
     }
 
-    .conversation-item:hover {
-      border-color: #25bfd4;
-
-      transform: translateY(-1px);
+    .conversation:hover {
+      border-color: #bfdbfe;
+      background: #f8fbff;
     }
 
     .conversation-title {
-      font-weight: 800;
-
+      font-size: 17px;
+      font-weight: 700;
       margin-bottom: 8px;
-
-      color: #e6f7fb;
     }
 
     .conversation-meta {
-      display: flex;
-
-      justify-content: space-between;
-
-      gap: 10px;
-
-      color: #78939f;
-
-      font-size: 12px;
-    }
-
-    .badge {
-      display: inline-block;
-
-      padding: 4px 8px;
-
-      border-radius: 7px;
-
-      background: rgba(37, 191, 212, 0.10);
-
-      color: #62dbe7;
-    }
-
-    .loading {
-      text-align: center;
-
-      padding: 40px;
-
-      color: #7f9ca8;
-    }
-
-    .error {
-      color: #ff9d9d;
-
-      text-align: center;
-
-      padding: 25px;
-
-      line-height: 1.6;
-    }
-
-    .success {
-      color: #71e3b4;
-
+      color: #64748b;
       font-size: 13px;
-
-      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    @media (max-width: 850px) {
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    .status.open {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
 
+    .status.answered {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .status.closed {
+      background: #e5e7eb;
+      color: #475569;
+    }
+
+    .loading,
+    .empty {
+      text-align: center;
+      padding: 35px 20px;
+      color: #64748b;
+    }
+
+    @media (max-width: 700px) {
       .topbar {
-        padding: 0 18px;
-      }
-
-      .container {
-        padding: 25px 15px;
-      }
-    }
-
-    @media (max-width: 500px) {
-
-      .brand-name {
-        font-size: 21px;
-      }
-
-      .welcome h1 {
-        font-size: 27px;
-      }
-
-      .card-header {
         align-items: flex-start;
-
-        gap: 15px;
-
         flex-direction: column;
       }
 
-      .new-button {
+      .user-area {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .actions {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .primary-btn {
         width: 100%;
       }
 
@@ -525,8 +278,7 @@
         flex-direction: column;
       }
 
-      .send-button,
-      .cancel-button {
+      .form-buttons button {
         width: 100%;
       }
     }
@@ -535,232 +287,97 @@
 
 <body>
 
-  <!-- TOPBAR -->
-
   <header class="topbar">
+    <div class="brand">PACIENT+</div>
 
-    <div class="brand">
-
-      <div class="brand-icon">
-        ✚
-      </div>
-
-      <div class="brand-name">
-        PACIENT<span>+</span>
-      </div>
-
+    <div class="user-area">
+      <span id="userEmail">Po kontrollohet...</span>
+      <button class="logout" id="logoutBtn">Dil</button>
     </div>
-
-    <button
-      class="logout"
-      id="logoutButton"
-    >
-      Dil
-    </button>
-
   </header>
-
-
-  <!-- MAIN -->
 
   <main class="container">
 
     <section class="welcome">
-
-      <h1>
-        Mirë se vini 👋
-      </h1>
-
-      <p>
-        Nga këtu mund të komunikoni me personelin shëndetësor.
-      </p>
-
+      <h1>Mirë se vini 👋</h1>
+      <p>Këtu mund të komunikoni me personelin shëndetësor.</p>
     </section>
 
+    <div id="messageBox" class="message"></div>
 
-    <section class="grid">
+    <section class="card form-card" id="newQuestionCard">
 
-      <!-- LEFT -->
+      <h3>💬 Krijo një pyetje të re</h3>
 
-      <div class="card">
+      <form id="questionForm">
 
-        <div class="card-header">
+        <label for="subject">Subjekti</label>
 
-          <h2>
-            💬 Bisedat e mia
-          </h2>
+        <input
+          type="text"
+          id="subject"
+          placeholder="P.sh. Pyetje për vizitën"
+          required
+        >
+
+        <label for="question">Pyetja juaj</label>
+
+        <textarea
+          id="question"
+          placeholder="Shkruani pyetjen tuaj këtu..."
+          required
+        ></textarea>
+
+        <div class="form-buttons">
 
           <button
-            class="new-button"
-            id="newConversationButton"
+            type="submit"
+            class="primary-btn"
+            id="sendBtn"
           >
-            + Pyetje e re
+            Dërgo pyetjen
+          </button>
+
+          <button
+            type="button"
+            class="secondary-btn"
+            id="cancelBtn"
+          >
+            Anulo
           </button>
 
         </div>
 
+      </form>
 
-        <!-- NEW QUESTION FORM -->
+    </section>
 
-        <div
-          class="form-box"
-          id="newQuestionBox"
-        >
+    <div class="actions">
 
-          <div class="form-title">
-            Krijo një pyetje të re
-          </div>
+      <h2>💬 Bisedat e mia</h2>
 
+      <button
+        class="primary-btn"
+        id="newQuestionBtn"
+      >
+        + Pyetje e re
+      </button>
 
-          <div class="field">
+    </div>
 
-            <label for="subject">
-              Subjekti
-            </label>
+    <section class="card">
 
-            <input
-              type="text"
-              id="subject"
-              placeholder="P.sh. Pyetje për vizitën"
-              maxlength="150"
-            >
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="question">
-              Mesazhi
-            </label>
-
-            <textarea
-              id="question"
-              placeholder="Shkruani pyetjen tuaj..."
-            ></textarea>
-
-          </div>
-
-
-          <div class="form-buttons">
-
-            <button
-              class="send-button"
-              id="sendButton"
-            >
-              Dërgo pyetjen
-            </button>
-
-            <button
-              class="cancel-button"
-              id="cancelButton"
-              type="button"
-            >
-              Anulo
-            </button>
-
-          </div>
-
-
-          <div
-            id="formMessage"
-            class="success"
-          ></div>
-
+      <div id="conversationsList">
+        <div class="loading">
+          Po ngarkohen bisedat...
         </div>
-
-
-        <!-- CONVERSATIONS -->
-
-        <div id="conversations">
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              💬
-            </div>
-
-            <h3>
-              Nuk keni ende biseda
-            </h3>
-
-            <p>
-              Krijoni pyetjen tuaj të parë për të komunikuar
-              me personelin shëndetësor.
-            </p>
-
-          </div>
-
-        </div>
-
       </div>
-
-
-      <!-- PROFILE -->
-
-      <aside class="card">
-
-        <div class="profile">
-
-          <div class="profile-icon">
-            👤
-          </div>
-
-
-          <div>
-
-            <div class="profile-label">
-              Llogaria
-            </div>
-
-            <div
-              class="profile-value"
-              id="userEmail"
-            >
-              Po ngarkohet...
-            </div>
-
-          </div>
-
-
-          <div>
-
-            <div class="profile-label">
-              Statusi
-            </div>
-
-            <div class="status">
-
-              <span class="status-dot"></span>
-
-              Aktiv
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </aside>
 
     </section>
 
   </main>
 
-
-  <!-- SUPABASE -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
-
-
   <script>
-
-    "use strict";
-
-
-    /* =====================================
-       SUPABASE
-    ===================================== */
 
     const SUPABASE_URL =
       "https://izrkvynsdikpevdhdtef.supabase.co";
@@ -768,71 +385,399 @@
     const SUPABASE_KEY =
       "sb_publishable_6eexQFM_g7BCaLK9V_DuZQ_oxwFbmSK";
 
-
     const client =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
 
+    // E bëjmë të disponueshëm edhe në Console
+    window.client = client;
 
-    /* =====================================
-       ELEMENTS
-    ===================================== */
+    let currentUser = null;
 
     const userEmail =
       document.getElementById("userEmail");
 
-    const logoutButton =
-      document.getElementById("logoutButton");
+    const conversationsList =
+      document.getElementById("conversationsList");
 
-    const newConversationButton =
-      document.getElementById(
-        "newConversationButton"
+    const newQuestionBtn =
+      document.getElementById("newQuestionBtn");
+
+    const newQuestionCard =
+      document.getElementById("newQuestionCard");
+
+    const cancelBtn =
+      document.getElementById("cancelBtn");
+
+    const questionForm =
+      document.getElementById("questionForm");
+
+    const sendBtn =
+      document.getElementById("sendBtn");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+    const messageBox =
+      document.getElementById("messageBox");
+
+
+    function showMessage(text, type = "error") {
+
+      messageBox.textContent = text;
+
+      messageBox.className =
+        "message show " + type;
+
+    }
+
+
+    function hideMessage() {
+
+      messageBox.className = "message";
+
+      messageBox.textContent = "";
+
+    }
+
+
+    newQuestionBtn.addEventListener("click", () => {
+
+      hideMessage();
+
+      newQuestionCard.classList.add("show");
+
+      document
+        .getElementById("subject")
+        .focus();
+
+    });
+
+
+    cancelBtn.addEventListener("click", () => {
+
+      newQuestionCard.classList.remove("show");
+
+      questionForm.reset();
+
+      hideMessage();
+
+    });
+
+
+    logoutBtn.addEventListener("click", async () => {
+
+      await client.auth.signOut();
+
+      window.location.href = "index.html";
+
+    });
+
+
+    async function loadUser() {
+
+      const {
+        data,
+        error
+      } = await client.auth.getUser();
+
+      if (error || !data.user) {
+
+        window.location.href = "index.html";
+
+        return;
+
+      }
+
+      currentUser = data.user;
+
+      userEmail.textContent =
+        currentUser.email || "";
+
+      console.log(
+        "PACIENT+ USER ID:",
+        currentUser.id
       );
 
-    const newQuestionBox =
-      document.getElementById(
-        "newQuestionBox"
+      console.log(
+        "PACIENT+ USER EMAIL:",
+        currentUser.email
       );
 
-    const cancelButton =
-      document.getElementById(
-        "cancelButton"
-      );
+      await loadConversations();
 
-    const sendButton =
-      document.getElementById(
-        "sendButton"
-      );
-
-    const subjectInput =
-      document.getElementById(
-        "subject"
-      );
-
-    const questionInput =
-      document.getElementById(
-        "question"
-      );
-
-    const formMessage =
-      document.getElementById(
-        "formMessage"
-      );
-
-    const conversations =
-      document.getElementById(
-        "conversations"
-      );
+    }
 
 
-    let currentUser = null;
+    async function loadConversations() {
+
+      conversationsList.innerHTML = `
+        <div class="loading">
+          Po ngarkohen bisedat...
+        </div>
+      `;
+
+      const {
+        data,
+        error
+      } = await client
+        .from("conversations")
+        .select("*")
+        .eq("patient_id", currentUser.id)
+        .order("created_at", {
+          ascending: false
+        });
+
+      if (error) {
+
+        console.error(
+          "LOAD CONVERSATIONS ERROR:",
+          error
+        );
+
+        conversationsList.innerHTML = `
+          <div class="empty">
+            Nuk u ngarkuan bisedat.
+          </div>
+        `;
+
+        return;
+
+      }
+
+      if (!data || data.length === 0) {
+
+        conversationsList.innerHTML = `
+          <div class="empty">
+            Nuk keni ende biseda.
+            <br><br>
+            Klikoni <strong>+ Pyetje e re</strong>
+            për të filluar.
+          </div>
+        `;
+
+        return;
+
+      }
+
+      conversationsList.innerHTML = "";
+
+      data.forEach(conversation => {
+
+        const item =
+          document.createElement("div");
+
+        item.className = "conversation";
+
+        const status =
+          conversation.status || "open";
+
+        const statusText =
+          status === "answered"
+            ? "Përgjigjur"
+            : status === "closed"
+              ? "Mbyllur"
+              : "Hapur";
+
+        const date =
+          conversation.created_at
+            ? new Date(
+                conversation.created_at
+              ).toLocaleString("sq-AL")
+            : "";
+
+        item.innerHTML = `
+          <div class="conversation-title">
+            ${escapeHtml(
+              conversation.subject ||
+              "Pa subjekt"
+            )}
+          </div>
+
+          <div class="conversation-meta">
+
+            <span>
+              ${date}
+            </span>
+
+            <span class="status ${status}">
+              ${statusText}
+            </span>
+
+          </div>
+        `;
+
+        conversationsList.appendChild(item);
+
+      });
+
+    }
 
 
-    /* =====================================
-       ESCAPE HTML
-    ===================================== */
+    questionForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+        hideMessage();
+
+        if (!currentUser) {
+
+          showMessage(
+            "Përdoruesi nuk është identifikuar."
+          );
+
+          return;
+
+        }
+
+        const subject =
+          document
+            .getElementById("subject")
+            .value
+            .trim();
+
+        const question =
+          document
+            .getElementById("question")
+            .value
+            .trim();
+
+        if (!subject || !question) {
+
+          showMessage(
+            "Plotësoni subjektin dhe pyetjen."
+          );
+
+          return;
+
+        }
+
+        sendBtn.disabled = true;
+
+        sendBtn.textContent =
+          "Po dërgohet...";
+
+        console.log(
+          "Creating conversation with patient_id:",
+          currentUser.id
+        );
+
+        try {
+
+          // 1. Krijojmë bisedën
+          const {
+            data: conversation,
+            error: conversationError
+          } = await client
+            .from("conversations")
+            .insert({
+              patient_id: currentUser.id,
+              subject: subject,
+              status: "open"
+            })
+            .select()
+            .single();
+
+          if (conversationError) {
+
+            console.error(
+              "CONVERSATION ERROR:",
+              conversationError
+            );
+
+            throw new Error(
+              conversationError.message
+            );
+
+          }
+
+          console.log(
+            "Conversation created:",
+            conversation
+          );
+
+
+          // 2. Krijojmë mesazhin e parë
+          const {
+            data: message,
+            error: messageError
+          } = await client
+            .from("messages")
+            .insert({
+              conversation_id:
+                conversation.id,
+
+              sender_id:
+                currentUser.id,
+
+              message:
+                question
+            })
+            .select()
+            .single();
+
+
+          if (messageError) {
+
+            console.error(
+              "MESSAGE ERROR:",
+              messageError
+            );
+
+            throw new Error(
+              messageError.message
+            );
+
+          }
+
+          console.log(
+            "Message created:",
+            message
+          );
+
+
+          // 3. Pastrojmë formularin
+          questionForm.reset();
+
+          newQuestionCard.classList.remove(
+            "show"
+          );
+
+          showMessage(
+            "Pyetja u dërgua me sukses. ❤️",
+            "success"
+          );
+
+          await loadConversations();
+
+        } catch (error) {
+
+          console.error(
+            "CREATE QUESTION ERROR:",
+            error
+          );
+
+          showMessage(
+            "Pyetja nuk u krijua: " +
+            error.message
+          );
+
+        } finally {
+
+          sendBtn.disabled = false;
+
+          sendBtn.textContent =
+            "Dërgo pyetjen";
+
+        }
+
+      }
+    );
+
 
     function escapeHtml(value) {
 
@@ -846,537 +791,7 @@
     }
 
 
-    /* =====================================
-       LOAD USER
-    ===================================== */
-
-    async function loadUser() {
-
-      try {
-
-        const result =
-          await client.auth.getUser();
-
-
-        if (
-          result.error ||
-          !result.data ||
-          !result.data.user
-        ) {
-
-          window.location.href =
-            "index.html";
-
-          return;
-        }
-
-
-        currentUser =
-          result.data.user;
-
-
-        userEmail.textContent =
-          currentUser.email;
-
-
-        console.log(
-          "PACIENT+ USER:",
-          currentUser
-        );
-
-
-        await loadConversations();
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "USER ERROR:",
-          error
-        );
-
-        window.location.href =
-          "index.html";
-
-      }
-
-    }
-
-
-    /* =====================================
-       LOAD CONVERSATIONS
-    ===================================== */
-
-    async function loadConversations() {
-
-      if (!currentUser) {
-        return;
-      }
-
-
-      conversations.innerHTML = `
-        <div class="loading">
-          Po ngarkohen bisedat...
-        </div>
-      `;
-
-
-      try {
-
-        const result =
-          await client
-            .from("conversations")
-            .select("*")
-            .eq(
-              "patient_id",
-              currentUser.id
-            )
-            .order(
-              "created_at",
-              {
-                ascending: false
-              }
-            );
-
-
-        if (result.error) {
-
-          console.error(
-            "CONVERSATIONS ERROR:",
-            result.error
-          );
-
-
-          conversations.innerHTML = `
-            <div class="error">
-              Bisedat nuk mund të ngarkohen.
-              <br><br>
-              ${escapeHtml(
-                result.error.message
-              )}
-            </div>
-          `;
-
-          return;
-        }
-
-
-        if (
-          !result.data ||
-          result.data.length === 0
-        ) {
-
-          conversations.innerHTML = `
-            <div class="empty">
-
-              <div class="empty-icon">
-                💬
-              </div>
-
-              <h3>
-                Nuk keni ende biseda
-              </h3>
-
-              <p>
-                Krijoni pyetjen tuaj të parë
-                për të komunikuar me personelin
-                shëndetësor.
-              </p>
-
-            </div>
-          `;
-
-          return;
-        }
-
-
-        conversations.innerHTML = "";
-
-
-        result.data.forEach(
-          function(conversation) {
-
-            const item =
-              document.createElement(
-                "div"
-              );
-
-
-            item.className =
-              "conversation-item";
-
-
-            const date =
-              conversation.created_at
-                ? new Date(
-                    conversation.created_at
-                  ).toLocaleString(
-                    "sq-AL"
-                  )
-                : "";
-
-
-            item.innerHTML = `
-
-              <div class="conversation-title">
-                ${escapeHtml(
-                  conversation.subject ||
-                  "Pa subjekt"
-                )}
-              </div>
-
-              <div class="conversation-meta">
-
-                <span>
-                  ${escapeHtml(date)}
-                </span>
-
-                <span class="badge">
-                  ${escapeHtml(
-                    conversation.status ||
-                    "open"
-                  )}
-                </span>
-
-              </div>
-
-            `;
-
-
-            conversations.appendChild(
-              item
-            );
-
-          }
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "LOAD ERROR:",
-          error
-        );
-
-
-        conversations.innerHTML = `
-          <div class="error">
-            Ndodhi një gabim gjatë ngarkimit.
-          </div>
-        `;
-
-      }
-
-    }
-
-
-    /* =====================================
-       OPEN NEW QUESTION
-    ===================================== */
-
-    newConversationButton.addEventListener(
-      "click",
-      function() {
-
-        newQuestionBox.classList.add(
-          "active"
-        );
-
-        subjectInput.focus();
-
-      }
-    );
-
-
-    /* =====================================
-       CANCEL
-    ===================================== */
-
-    cancelButton.addEventListener(
-      "click",
-      function() {
-
-        newQuestionBox.classList.remove(
-          "active"
-        );
-
-        subjectInput.value = "";
-
-        questionInput.value = "";
-
-        formMessage.textContent = "";
-
-      }
-    );
-
-
-    /* =====================================
-       SEND QUESTION
-    ===================================== */
-
-    sendButton.addEventListener(
-      "click",
-      async function() {
-
-        if (!currentUser) {
-
-          formMessage.textContent =
-            "Sesioni juaj nuk është aktiv.";
-
-          return;
-        }
-
-
-        const subject =
-          subjectInput.value.trim();
-
-
-        const question =
-          questionInput.value.trim();
-
-
-        if (!subject) {
-
-          formMessage.textContent =
-            "Shkruani subjektin.";
-
-          subjectInput.focus();
-
-          return;
-        }
-
-
-        if (!question) {
-
-          formMessage.textContent =
-            "Shkruani pyetjen tuaj.";
-
-          questionInput.focus();
-
-          return;
-        }
-
-
-        sendButton.disabled = true;
-
-        sendButton.textContent =
-          "Po dërgohet...";
-
-        formMessage.textContent = "";
-
-
-        try {
-
-          /*
-            1. KRIJOJMË CONVERSATION
-          */
-
-          const conversationResult =
-            await client
-              .from("conversations")
-              .insert({
-
-                patient_id:
-                  currentUser.id,
-
-                subject:
-                  subject,
-
-                status:
-                  "open"
-
-              })
-              .select()
-              .single();
-
-
-          if (
-            conversationResult.error
-          ) {
-
-            console.error(
-              "CREATE CONVERSATION ERROR:",
-              conversationResult.error
-            );
-
-
-            formMessage.textContent =
-              "Pyetja nuk u krijua: " +
-              conversationResult.error.message;
-
-
-            sendButton.disabled = false;
-
-            sendButton.textContent =
-              "Dërgo pyetjen";
-
-            return;
-          }
-
-
-          const conversation =
-            conversationResult.data;
-
-
-          /*
-            2. RUAJMË MESAZHIN E PARË
-          */
-
-          const messageResult =
-            await client
-              .from("messages")
-              .insert({
-
-                conversation_id:
-                  conversation.id,
-
-                sender_id:
-                  currentUser.id,
-
-                message:
-                  question
-
-              });
-
-
-          if (
-            messageResult.error
-          ) {
-
-            console.error(
-              "CREATE MESSAGE ERROR:",
-              messageResult.error
-            );
-
-
-            /*
-              Nëse mesazhi nuk u ruajt,
-              e njoftojmë përdoruesin.
-            */
-
-            formMessage.textContent =
-              "Biseda u krijua, por mesazhi nuk u ruajt: " +
-              messageResult.error.message;
-
-
-            sendButton.disabled = false;
-
-            sendButton.textContent =
-              "Dërgo pyetjen";
-
-            return;
-          }
-
-
-          /*
-            3. SUKSES
-          */
-
-          formMessage.textContent =
-            "Pyetja u dërgua me sukses ✓";
-
-
-          subjectInput.value = "";
-
-          questionInput.value = "";
-
-
-          sendButton.textContent =
-            "Dërguar ✓";
-
-
-          /*
-            Rifreskojmë listën.
-          */
-
-          await loadConversations();
-
-
-          setTimeout(
-            function() {
-
-              newQuestionBox.classList.remove(
-                "active"
-              );
-
-              sendButton.disabled = false;
-
-              sendButton.textContent =
-                "Dërgo pyetjen";
-
-              formMessage.textContent = "";
-
-            },
-            1200
-          );
-
-        }
-
-        catch (error) {
-
-          console.error(
-            "SEND QUESTION ERROR:",
-            error
-          );
-
-
-          formMessage.textContent =
-            "Ndodhi një gabim gjatë dërgimit.";
-
-
-          sendButton.disabled = false;
-
-          sendButton.textContent =
-            "Dërgo pyetjen";
-
-        }
-
-      }
-    );
-
-
-    /* =====================================
-       LOGOUT
-    ===================================== */
-
-    logoutButton.addEventListener(
-      "click",
-      async function() {
-
-        logoutButton.disabled = true;
-
-
-        const result =
-          await client.auth.signOut();
-
-
-        if (result.error) {
-
-          console.error(
-            "LOGOUT ERROR:",
-            result.error
-          );
-
-
-          logoutButton.disabled = false;
-
-          return;
-        }
-
-
-        window.location.href =
-          "index.html";
-
-      }
-    );
-
-
-    /* =====================================
-       START
-    ===================================== */
-
+    // Nisja
     loadUser();
 
   </script>
