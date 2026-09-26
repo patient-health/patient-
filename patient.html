@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PACIENT+ | Paneli i pacientit</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(30, 190, 215, 0.12),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #06131d,
+          #0a202d 55%,
+          #07151f
+        );
+      color: #eefaff;
+    }
+
+    .topbar {
+      height: 74px;
+      padding: 0 28px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 1px solid rgba(120, 210, 225, 0.12);
+
+      background: rgba(5, 20, 30, 0.85);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 22px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #19c4d8,
+          #1679b6
+        );
+    }
+
+    .brand-name {
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .brand-name span {
+      color: #57dcea;
+    }
+
+    .logout {
+      border: 1px solid #294655;
+      background: #0c2535;
+      color: #cde4ec;
+
+      padding: 10px 16px;
+
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      font-weight: 700;
+    }
+
+    .logout:hover {
+      border-color: #25bfd4;
+      color: #fff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+      padding: 35px 24px;
+    }
+
+    .welcome {
+      margin-bottom: 28px;
+    }
+
+    .welcome h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #8faebb;
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+
+      grid-template-columns: 1fr 340px;
+
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(10, 31, 45, 0.88);
+
+      border: 1px solid rgba(105, 205, 225, 0.14);
+
+      border-radius: 20px;
+
+      padding: 25px;
+
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.20);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 22px;
+    }
+
+    .card-header h2 {
+      font-size: 20px;
+    }
+
+    .new-button {
+      border: 0;
+
+      border-radius: 10px;
+
+      padding: 11px 15px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #59e0eb,
+          #19afcf
+        );
+
+      color: #03131b;
+
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+    .new-button:hover {
+      filter: brightness(1.05);
+    }
+
+    .empty {
+      text-align: center;
+
+      padding: 55px 20px;
+
+      color: #78939f;
+    }
+
+    .empty-icon {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .empty h3 {
+      color: #c5dce4;
+      margin-bottom: 8px;
+    }
+
+    .empty p {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+
+      gap: 18px;
+    }
+
+    .profile-icon {
+      width: 70px;
+      height: 70px;
+
+      border-radius: 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 30px;
+
+      background: rgba(30, 191, 213, 0.12);
+
+      border: 1px solid rgba(50, 207, 224, 0.2);
+    }
+
+    .profile-label {
+      color: #708995;
+
+      font-size: 11px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
+
+      margin-bottom: 5px;
+    }
+
+    .profile-value {
+      color: #dceef4;
+
+      font-size: 14px;
+
+      word-break: break-word;
+    }
+
+    .status {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      color: #71e3b4;
+
+      font-size: 13px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: #4ed39e;
+
+      box-shadow:
+        0 0 10px rgba(78, 211, 158, 0.6);
+    }
+
+    .loading {
+      text-align: center;
+
+      padding: 40px;
+
+      color: #7f9ca8;
+    }
+
+    .error {
+      color: #ff9d9d;
+
+      text-align: center;
+
+      padding: 25px;
+    }
+
+    @media (max-width: 850px) {
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .container {
+        padding: 25px 15px;
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .brand-name {
+        font-size: 21px;
+      }
+
+      .welcome h1 {
+        font-size: 27px;
+      }
+
+      .card-header {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        ✚
+      </div>
+
+      <div class="brand-name">
+        PACIENT<span>+</span>
+      </div>
+
+    </div>
+
+    <button
+      class="logout"
+      id="logoutButton"
+    >
+      Dil
+    </button>
+
+  </header>
+
+
+  <!-- MAIN -->
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h1>
+        Mirë se vini 👋
+      </h1>
+
+      <p>
+        Nga këtu mund të komunikoni me personelin shëndetësor.
+      </p>
+
+    </section>
+
+
+    <section class="grid">
+
+      <!-- CONVERSATIONS -->
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <h2>
+            💬 Bisedat e mia
+          </h2>
+
+          <button
+            class="new-button"
+            id="newConversationButton"
+          >
+            + Pyetje e re
+          </button>
+
+        </div>
+
+        <div id="conversations">
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              💬
+            </div>
+
+            <h3>
+              Nuk keni ende biseda
+            </h3>
+
+            <p>
+              Krijoni pyetjen tuaj të parë për të komunikuar
+              me personelin shëndetësor.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PROFILE -->
+
+      <aside class="card">
+
+        <div class="profile">
+
+          <div class="profile-icon">
+            👤
+          </div>
+
+          <div>
+
+            <div class="profile-label">
+              Llogaria
+            </div>
+
+            <div
+              class="profile-value"
+              id="userEmail"
+            >
+              Po ngarkohet...
+            </div>
+
+          </div>
+
+          <div>
+
+            <div class="profile-label">
+              Statusi
+            </div>
+
+            <div class="status">
+
+              <span class="status-dot"></span>
+
+              Aktiv
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+    </section>
+
+  </main>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+
+
+  <script>
+
+    "use strict";
+
+
+    /* =====================================
+       SUPABASE
+    ===================================== */
+
+    const SUPABASE_URL =
+      "https://izrkvynsdikpevdhdtef.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_6eexQFM_g7BCaLK9V_DuZQ_oxwFbmSK";
+
+
+    const client =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* =====================================
+       ELEMENTS
+    ===================================== */
+
+    const userEmail =
+      document.getElementById("userEmail");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const newConversationButton =
+      document.getElementById(
+        "newConversationButton"
+      );
+
+    const conversations =
+      document.getElementById(
+        "conversations"
+      );
+
+
+    /* =====================================
+       CHECK USER
+    ===================================== */
+
+    async function loadUser() {
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await client.auth.getUser();
+
+
+        if (error) {
+
+          console.error(
+            "PACIENT+ USER ERROR:",
+            error
+          );
+
+          window.location.href =
+            "index.html";
+
+          return;
+        }
+
+
+        if (!data.user) {
+
+          window.location.href =
+            "index.html";
+
+          return;
+        }
+
+
+        userEmail.textContent =
+          data.user.email;
+
+
+        console.log(
+          "PACIENT+ USER:",
+          data.user
+        );
+
+
+        loadConversations(
+          data.user.id
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "PACIENT+ ERROR:",
+          error
+        );
+
+        window.location.href =
+          "index.html";
+      }
+
+    }
+
+
+    /* =====================================
+       LOAD CONVERSATIONS
+    ===================================== */
+
+    async function loadConversations(
+      userId
+    ) {
+
+      try {
+
+        const result =
+          await client
+            .from("conversations")
+            .select("*")
+            .eq("patient_id", userId)
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            );
+
+
+        if (result.error) {
+
+          console.error(
+            "CONVERSATIONS ERROR:",
+            result.error
+          );
+
+          /*
+            Tabela ekziston, por RLS
+            mund të mos jetë konfiguruar ende.
+          */
+
+          conversations.innerHTML = `
+            <div class="error">
+              Bisedat nuk mund të ngarkohen ende.
+            </div>
+          `;
+
+          return;
+        }
+
+
+        if (
+          !result.data ||
+          result.data.length === 0
+        ) {
+
+          return;
+        }
+
+
+        conversations.innerHTML = "";
+
+
+        result.data.forEach(
+          function(conversation) {
+
+            const item =
+              document.createElement("div");
+
+            item.style.padding = "18px";
+            item.style.marginBottom = "12px";
+            item.style.borderRadius = "14px";
+            item.style.background = "#0c2535";
+            item.style.border =
+              "1px solid #294655";
+
+
+            item.innerHTML = `
+
+              <div style="
+                font-weight:800;
+                margin-bottom:7px;
+              ">
+                ${escapeHtml(
+                  conversation.subject ||
+                  "Pa subjekt"
+                )}
+              </div>
+
+              <div style="
+                color:#78939f;
+                font-size:13px;
+              ">
+                Status:
+                ${escapeHtml(
+                  conversation.status ||
+                  "open"
+                )}
+              </div>
+
+            `;
+
+
+            conversations.appendChild(item);
+
+          }
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "LOAD CONVERSATIONS ERROR:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =====================================
+       ESCAPE HTML
+    ===================================== */
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    }
+
+
+    /* =====================================
+       NEW CONVERSATION
+    ===================================== */
+
+    newConversationButton.addEventListener(
+      "click",
+      function() {
+
+        alert(
+          "Formulari për pyetje të re do të aktivizohet në hapin tjetër."
+        );
+
+      }
+    );
+
+
+    /* =====================================
+       LOGOUT
+    ===================================== */
+
+    logoutButton.addEventListener(
+      "click",
+      async function() {
+
+        logoutButton.disabled = true;
+
+        const result =
+          await client.auth.signOut();
+
+
+        if (result.error) {
+
+          console.error(
+            "LOGOUT ERROR:",
+            result.error
+          );
+
+          logoutButton.disabled = false;
+
+          return;
+        }
+
+
+        window.location.href =
+          "index.html";
+
+      }
+    );
+
+
+    /* =====================================
+       START
+    ===================================== */
+
+    loadUser();
+
+  </script>
+
+</body>
+</html>
