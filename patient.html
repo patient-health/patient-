@@ -16,6 +16,7 @@
     body {
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
+
       background:
         radial-gradient(
           circle at 10% 10%,
@@ -28,6 +29,7 @@
           #0a202d 55%,
           #07151f
         );
+
       color: #eefaff;
     }
 
@@ -272,6 +274,190 @@
         0 0 10px rgba(78, 211, 158, 0.6);
     }
 
+    /* FORM */
+
+    .form-box {
+      display: none;
+
+      margin-bottom: 24px;
+
+      padding: 22px;
+
+      border-radius: 16px;
+
+      background: #081d2b;
+
+      border: 1px solid #294655;
+    }
+
+    .form-box.active {
+      display: block;
+    }
+
+    .form-title {
+      font-size: 19px;
+      font-weight: 800;
+
+      margin-bottom: 18px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #bdd2dc;
+
+      font-size: 13px;
+
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+
+      border: 1px solid #294655;
+
+      border-radius: 11px;
+
+      background: #0c2535;
+
+      color: #f2fbff;
+
+      padding: 12px 14px;
+
+      outline: none;
+
+      font-family: inherit;
+
+      font-size: 14px;
+    }
+
+    .field input {
+      height: 48px;
+    }
+
+    .field textarea {
+      min-height: 130px;
+
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: #25bfd4;
+
+      box-shadow:
+        0 0 0 3px rgba(37, 191, 212, 0.10);
+    }
+
+    .form-buttons {
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 18px;
+    }
+
+    .send-button,
+    .cancel-button {
+      border: 0;
+
+      border-radius: 10px;
+
+      padding: 12px 18px;
+
+      cursor: pointer;
+
+      font-weight: 800;
+    }
+
+    .send-button {
+      background:
+        linear-gradient(
+          135deg,
+          #59e0eb,
+          #19afcf
+        );
+
+      color: #03131b;
+    }
+
+    .send-button:disabled {
+      opacity: 0.6;
+
+      cursor: not-allowed;
+    }
+
+    .cancel-button {
+      background: #142e3d;
+
+      color: #b8d0da;
+
+      border: 1px solid #294655;
+    }
+
+    /* CONVERSATION */
+
+    .conversation-item {
+      padding: 18px;
+
+      margin-bottom: 12px;
+
+      border-radius: 14px;
+
+      background: #0c2535;
+
+      border: 1px solid #294655;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .conversation-item:hover {
+      border-color: #25bfd4;
+
+      transform: translateY(-1px);
+    }
+
+    .conversation-title {
+      font-weight: 800;
+
+      margin-bottom: 8px;
+
+      color: #e6f7fb;
+    }
+
+    .conversation-meta {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      color: #78939f;
+
+      font-size: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+
+      padding: 4px 8px;
+
+      border-radius: 7px;
+
+      background: rgba(37, 191, 212, 0.10);
+
+      color: #62dbe7;
+    }
+
     .loading {
       text-align: center;
 
@@ -286,6 +472,16 @@
       text-align: center;
 
       padding: 25px;
+
+      line-height: 1.6;
+    }
+
+    .success {
+      color: #71e3b4;
+
+      font-size: 13px;
+
+      margin-top: 12px;
     }
 
     @media (max-width: 850px) {
@@ -315,8 +511,23 @@
 
       .card-header {
         align-items: flex-start;
+
         gap: 15px;
+
         flex-direction: column;
+      }
+
+      .new-button {
+        width: 100%;
+      }
+
+      .form-buttons {
+        flex-direction: column;
+      }
+
+      .send-button,
+      .cancel-button {
+        width: 100%;
       }
     }
   </style>
@@ -324,7 +535,7 @@
 
 <body>
 
-  <!-- TOP BAR -->
+  <!-- TOPBAR -->
 
   <header class="topbar">
 
@@ -369,7 +580,7 @@
 
     <section class="grid">
 
-      <!-- CONVERSATIONS -->
+      <!-- LEFT -->
 
       <div class="card">
 
@@ -387,6 +598,79 @@
           </button>
 
         </div>
+
+
+        <!-- NEW QUESTION FORM -->
+
+        <div
+          class="form-box"
+          id="newQuestionBox"
+        >
+
+          <div class="form-title">
+            Krijo një pyetje të re
+          </div>
+
+
+          <div class="field">
+
+            <label for="subject">
+              Subjekti
+            </label>
+
+            <input
+              type="text"
+              id="subject"
+              placeholder="P.sh. Pyetje për vizitën"
+              maxlength="150"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="question">
+              Mesazhi
+            </label>
+
+            <textarea
+              id="question"
+              placeholder="Shkruani pyetjen tuaj..."
+            ></textarea>
+
+          </div>
+
+
+          <div class="form-buttons">
+
+            <button
+              class="send-button"
+              id="sendButton"
+            >
+              Dërgo pyetjen
+            </button>
+
+            <button
+              class="cancel-button"
+              id="cancelButton"
+              type="button"
+            >
+              Anulo
+            </button>
+
+          </div>
+
+
+          <div
+            id="formMessage"
+            class="success"
+          ></div>
+
+        </div>
+
+
+        <!-- CONVERSATIONS -->
 
         <div id="conversations">
 
@@ -422,6 +706,7 @@
             👤
           </div>
 
+
           <div>
 
             <div class="profile-label">
@@ -436,6 +721,7 @@
             </div>
 
           </div>
+
 
           <div>
 
@@ -505,194 +791,43 @@
         "newConversationButton"
       );
 
+    const newQuestionBox =
+      document.getElementById(
+        "newQuestionBox"
+      );
+
+    const cancelButton =
+      document.getElementById(
+        "cancelButton"
+      );
+
+    const sendButton =
+      document.getElementById(
+        "sendButton"
+      );
+
+    const subjectInput =
+      document.getElementById(
+        "subject"
+      );
+
+    const questionInput =
+      document.getElementById(
+        "question"
+      );
+
+    const formMessage =
+      document.getElementById(
+        "formMessage"
+      );
+
     const conversations =
       document.getElementById(
         "conversations"
       );
 
 
-    /* =====================================
-       CHECK USER
-    ===================================== */
-
-    async function loadUser() {
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await client.auth.getUser();
-
-
-        if (error) {
-
-          console.error(
-            "PACIENT+ USER ERROR:",
-            error
-          );
-
-          window.location.href =
-            "index.html";
-
-          return;
-        }
-
-
-        if (!data.user) {
-
-          window.location.href =
-            "index.html";
-
-          return;
-        }
-
-
-        userEmail.textContent =
-          data.user.email;
-
-
-        console.log(
-          "PACIENT+ USER:",
-          data.user
-        );
-
-
-        loadConversations(
-          data.user.id
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "PACIENT+ ERROR:",
-          error
-        );
-
-        window.location.href =
-          "index.html";
-      }
-
-    }
-
-
-    /* =====================================
-       LOAD CONVERSATIONS
-    ===================================== */
-
-    async function loadConversations(
-      userId
-    ) {
-
-      try {
-
-        const result =
-          await client
-            .from("conversations")
-            .select("*")
-            .eq("patient_id", userId)
-            .order(
-              "created_at",
-              {
-                ascending: false
-              }
-            );
-
-
-        if (result.error) {
-
-          console.error(
-            "CONVERSATIONS ERROR:",
-            result.error
-          );
-
-          /*
-            Tabela ekziston, por RLS
-            mund të mos jetë konfiguruar ende.
-          */
-
-          conversations.innerHTML = `
-            <div class="error">
-              Bisedat nuk mund të ngarkohen ende.
-            </div>
-          `;
-
-          return;
-        }
-
-
-        if (
-          !result.data ||
-          result.data.length === 0
-        ) {
-
-          return;
-        }
-
-
-        conversations.innerHTML = "";
-
-
-        result.data.forEach(
-          function(conversation) {
-
-            const item =
-              document.createElement("div");
-
-            item.style.padding = "18px";
-            item.style.marginBottom = "12px";
-            item.style.borderRadius = "14px";
-            item.style.background = "#0c2535";
-            item.style.border =
-              "1px solid #294655";
-
-
-            item.innerHTML = `
-
-              <div style="
-                font-weight:800;
-                margin-bottom:7px;
-              ">
-                ${escapeHtml(
-                  conversation.subject ||
-                  "Pa subjekt"
-                )}
-              </div>
-
-              <div style="
-                color:#78939f;
-                font-size:13px;
-              ">
-                Status:
-                ${escapeHtml(
-                  conversation.status ||
-                  "open"
-                )}
-              </div>
-
-            `;
-
-
-            conversations.appendChild(item);
-
-          }
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "LOAD CONVERSATIONS ERROR:",
-          error
-        );
-
-      }
-
-    }
+    let currentUser = null;
 
 
     /* =====================================
@@ -712,16 +847,491 @@
 
 
     /* =====================================
-       NEW CONVERSATION
+       LOAD USER
+    ===================================== */
+
+    async function loadUser() {
+
+      try {
+
+        const result =
+          await client.auth.getUser();
+
+
+        if (
+          result.error ||
+          !result.data ||
+          !result.data.user
+        ) {
+
+          window.location.href =
+            "index.html";
+
+          return;
+        }
+
+
+        currentUser =
+          result.data.user;
+
+
+        userEmail.textContent =
+          currentUser.email;
+
+
+        console.log(
+          "PACIENT+ USER:",
+          currentUser
+        );
+
+
+        await loadConversations();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "USER ERROR:",
+          error
+        );
+
+        window.location.href =
+          "index.html";
+
+      }
+
+    }
+
+
+    /* =====================================
+       LOAD CONVERSATIONS
+    ===================================== */
+
+    async function loadConversations() {
+
+      if (!currentUser) {
+        return;
+      }
+
+
+      conversations.innerHTML = `
+        <div class="loading">
+          Po ngarkohen bisedat...
+        </div>
+      `;
+
+
+      try {
+
+        const result =
+          await client
+            .from("conversations")
+            .select("*")
+            .eq(
+              "patient_id",
+              currentUser.id
+            )
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            );
+
+
+        if (result.error) {
+
+          console.error(
+            "CONVERSATIONS ERROR:",
+            result.error
+          );
+
+
+          conversations.innerHTML = `
+            <div class="error">
+              Bisedat nuk mund të ngarkohen.
+              <br><br>
+              ${escapeHtml(
+                result.error.message
+              )}
+            </div>
+          `;
+
+          return;
+        }
+
+
+        if (
+          !result.data ||
+          result.data.length === 0
+        ) {
+
+          conversations.innerHTML = `
+            <div class="empty">
+
+              <div class="empty-icon">
+                💬
+              </div>
+
+              <h3>
+                Nuk keni ende biseda
+              </h3>
+
+              <p>
+                Krijoni pyetjen tuaj të parë
+                për të komunikuar me personelin
+                shëndetësor.
+              </p>
+
+            </div>
+          `;
+
+          return;
+        }
+
+
+        conversations.innerHTML = "";
+
+
+        result.data.forEach(
+          function(conversation) {
+
+            const item =
+              document.createElement(
+                "div"
+              );
+
+
+            item.className =
+              "conversation-item";
+
+
+            const date =
+              conversation.created_at
+                ? new Date(
+                    conversation.created_at
+                  ).toLocaleString(
+                    "sq-AL"
+                  )
+                : "";
+
+
+            item.innerHTML = `
+
+              <div class="conversation-title">
+                ${escapeHtml(
+                  conversation.subject ||
+                  "Pa subjekt"
+                )}
+              </div>
+
+              <div class="conversation-meta">
+
+                <span>
+                  ${escapeHtml(date)}
+                </span>
+
+                <span class="badge">
+                  ${escapeHtml(
+                    conversation.status ||
+                    "open"
+                  )}
+                </span>
+
+              </div>
+
+            `;
+
+
+            conversations.appendChild(
+              item
+            );
+
+          }
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "LOAD ERROR:",
+          error
+        );
+
+
+        conversations.innerHTML = `
+          <div class="error">
+            Ndodhi një gabim gjatë ngarkimit.
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    /* =====================================
+       OPEN NEW QUESTION
     ===================================== */
 
     newConversationButton.addEventListener(
       "click",
       function() {
 
-        alert(
-          "Formulari për pyetje të re do të aktivizohet në hapin tjetër."
+        newQuestionBox.classList.add(
+          "active"
         );
+
+        subjectInput.focus();
+
+      }
+    );
+
+
+    /* =====================================
+       CANCEL
+    ===================================== */
+
+    cancelButton.addEventListener(
+      "click",
+      function() {
+
+        newQuestionBox.classList.remove(
+          "active"
+        );
+
+        subjectInput.value = "";
+
+        questionInput.value = "";
+
+        formMessage.textContent = "";
+
+      }
+    );
+
+
+    /* =====================================
+       SEND QUESTION
+    ===================================== */
+
+    sendButton.addEventListener(
+      "click",
+      async function() {
+
+        if (!currentUser) {
+
+          formMessage.textContent =
+            "Sesioni juaj nuk është aktiv.";
+
+          return;
+        }
+
+
+        const subject =
+          subjectInput.value.trim();
+
+
+        const question =
+          questionInput.value.trim();
+
+
+        if (!subject) {
+
+          formMessage.textContent =
+            "Shkruani subjektin.";
+
+          subjectInput.focus();
+
+          return;
+        }
+
+
+        if (!question) {
+
+          formMessage.textContent =
+            "Shkruani pyetjen tuaj.";
+
+          questionInput.focus();
+
+          return;
+        }
+
+
+        sendButton.disabled = true;
+
+        sendButton.textContent =
+          "Po dërgohet...";
+
+        formMessage.textContent = "";
+
+
+        try {
+
+          /*
+            1. KRIJOJMË CONVERSATION
+          */
+
+          const conversationResult =
+            await client
+              .from("conversations")
+              .insert({
+
+                patient_id:
+                  currentUser.id,
+
+                subject:
+                  subject,
+
+                status:
+                  "open"
+
+              })
+              .select()
+              .single();
+
+
+          if (
+            conversationResult.error
+          ) {
+
+            console.error(
+              "CREATE CONVERSATION ERROR:",
+              conversationResult.error
+            );
+
+
+            formMessage.textContent =
+              "Pyetja nuk u krijua: " +
+              conversationResult.error.message;
+
+
+            sendButton.disabled = false;
+
+            sendButton.textContent =
+              "Dërgo pyetjen";
+
+            return;
+          }
+
+
+          const conversation =
+            conversationResult.data;
+
+
+          /*
+            2. RUAJMË MESAZHIN E PARË
+          */
+
+          const messageResult =
+            await client
+              .from("messages")
+              .insert({
+
+                conversation_id:
+                  conversation.id,
+
+                sender_id:
+                  currentUser.id,
+
+                message:
+                  question
+
+              });
+
+
+          if (
+            messageResult.error
+          ) {
+
+            console.error(
+              "CREATE MESSAGE ERROR:",
+              messageResult.error
+            );
+
+
+            /*
+              Nëse mesazhi nuk u ruajt,
+              e njoftojmë përdoruesin.
+            */
+
+            formMessage.textContent =
+              "Biseda u krijua, por mesazhi nuk u ruajt: " +
+              messageResult.error.message;
+
+
+            sendButton.disabled = false;
+
+            sendButton.textContent =
+              "Dërgo pyetjen";
+
+            return;
+          }
+
+
+          /*
+            3. SUKSES
+          */
+
+          formMessage.textContent =
+            "Pyetja u dërgua me sukses ✓";
+
+
+          subjectInput.value = "";
+
+          questionInput.value = "";
+
+
+          sendButton.textContent =
+            "Dërguar ✓";
+
+
+          /*
+            Rifreskojmë listën.
+          */
+
+          await loadConversations();
+
+
+          setTimeout(
+            function() {
+
+              newQuestionBox.classList.remove(
+                "active"
+              );
+
+              sendButton.disabled = false;
+
+              sendButton.textContent =
+                "Dërgo pyetjen";
+
+              formMessage.textContent = "";
+
+            },
+            1200
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "SEND QUESTION ERROR:",
+            error
+          );
+
+
+          formMessage.textContent =
+            "Ndodhi një gabim gjatë dërgimit.";
+
+
+          sendButton.disabled = false;
+
+          sendButton.textContent =
+            "Dërgo pyetjen";
+
+        }
 
       }
     );
@@ -737,6 +1347,7 @@
 
         logoutButton.disabled = true;
 
+
         const result =
           await client.auth.signOut();
 
@@ -747,6 +1358,7 @@
             "LOGOUT ERROR:",
             result.error
           );
+
 
           logoutButton.disabled = false;
 
