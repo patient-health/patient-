@@ -1,290 +1,412 @@
-```html
 <!DOCTYPE html>
 <html lang="sq">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>PACIENT+</title>
 
   <style>
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    body{
-      min-height:100vh;
-      font-family:Arial,Helvetica,sans-serif;
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+
       background:
-        radial-gradient(circle at 15% 20%,rgba(29,190,210,.16),transparent 32%),
-        radial-gradient(circle at 85% 80%,rgba(38,104,180,.18),transparent 35%),
-        linear-gradient(135deg,#06131d,#0a202d 55%,#07151f);
-      color:#eefaff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
+        radial-gradient(
+          circle at 15% 20%,
+          rgba(29, 190, 210, 0.16),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 85% 80%,
+          rgba(38, 104, 180, 0.18),
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #06131d,
+          #0a202d 55%,
+          #07151f
+        );
+
+      color: #eefaff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
     }
 
-    .page{
-      width:100%;
-      max-width:1050px;
-      min-height:650px;
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      background:rgba(10,31,45,.88);
-      border:1px solid rgba(105,205,225,.16);
-      border-radius:28px;
-      overflow:hidden;
-      box-shadow:0 30px 80px rgba(0,0,0,.42);
-      backdrop-filter:blur(12px);
+    .page {
+      width: 100%;
+      max-width: 1050px;
+      min-height: 650px;
+
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+
+      background: rgba(10, 31, 45, 0.88);
+
+      border: 1px solid rgba(105, 205, 225, 0.16);
+
+      border-radius: 28px;
+
+      overflow: hidden;
+
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.42);
+
+      backdrop-filter: blur(12px);
     }
 
-    .intro{
-      padding:70px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      background:linear-gradient(
-        135deg,
-        rgba(11,45,62,.92),
-        rgba(6,25,38,.88)
-      );
+    /* LEFT */
+
+    .intro {
+      padding: 70px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(11, 45, 62, 0.92),
+          rgba(6, 25, 38, 0.88)
+        );
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-bottom:30px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      margin-bottom: 30px;
     }
 
-    .brand-icon{
-      width:58px;
-      height:58px;
-      border-radius:18px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:30px;
-      background:linear-gradient(135deg,#19c4d8,#1679b6);
-      box-shadow:0 10px 30px rgba(24,185,210,.25);
+    .brand-icon {
+      width: 58px;
+      height: 58px;
+
+      border-radius: 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 30px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #19c4d8,
+          #1679b6
+        );
+
+      box-shadow:
+        0 10px 30px rgba(24, 185, 210, 0.25);
     }
 
-    .brand-name{
-      font-size:34px;
-      font-weight:900;
-      letter-spacing:-1px;
+    .brand-name {
+      font-size: 34px;
+      font-weight: 900;
+
+      letter-spacing: -1px;
     }
 
-    .brand-name span{
-      color:#57dcea;
+    .brand-name span {
+      color: #57dcea;
     }
 
-    .intro h1{
-      font-size:48px;
-      line-height:1.08;
-      letter-spacing:-1.5px;
-      margin-bottom:22px;
-      max-width:570px;
+    .intro h1 {
+      font-size: 48px;
+      line-height: 1.08;
+
+      letter-spacing: -1.5px;
+
+      margin-bottom: 22px;
+
+      max-width: 570px;
     }
 
-    .intro h1 span{
-      color:#5de0ed;
+    .intro h1 span {
+      color: #5de0ed;
     }
 
-    .intro p{
-      color:#a9c2cf;
-      font-size:17px;
-      line-height:1.7;
-      max-width:540px;
+    .intro p {
+      color: #a9c2cf;
+
+      font-size: 17px;
+
+      line-height: 1.7;
+
+      max-width: 540px;
     }
 
-    .features{
-      margin-top:38px;
-      display:grid;
-      gap:15px;
+    .features {
+      margin-top: 38px;
+
+      display: grid;
+
+      gap: 15px;
     }
 
-    .feature{
-      display:flex;
-      align-items:center;
-      gap:13px;
-      color:#dceef4;
-      font-size:15px;
+    .feature {
+      display: flex;
+      align-items: center;
+
+      gap: 13px;
+
+      color: #dceef4;
+
+      font-size: 15px;
     }
 
-    .feature-icon{
-      width:34px;
-      height:34px;
-      border-radius:10px;
-      background:rgba(30,191,213,.12);
-      border:1px solid rgba(50,207,224,.2);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#61dce8;
+    .feature-icon {
+      width: 34px;
+      height: 34px;
+
+      flex-shrink: 0;
+
+      border-radius: 10px;
+
+      background: rgba(30, 191, 213, 0.12);
+
+      border: 1px solid rgba(50, 207, 224, 0.2);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #61dce8;
     }
 
-    .login-area{
-      padding:55px 48px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(5,18,28,.72);
+    /* RIGHT */
+
+    .login-area {
+      padding: 55px 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(5, 18, 28, 0.72);
     }
 
-    .login-box{
-      width:100%;
-      max-width:370px;
+    .login-box {
+      width: 100%;
+      max-width: 370px;
     }
 
-    .login-box h2{
-      font-size:30px;
-      margin-bottom:9px;
+    .login-box h2 {
+      font-size: 30px;
+
+      margin-bottom: 9px;
     }
 
-    .subtitle{
-      color:#8faebb;
-      font-size:14px;
-      line-height:1.6;
-      margin-bottom:30px;
+    .subtitle {
+      color: #8faebb;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+
+      margin-bottom: 30px;
     }
 
-    .field{
-      margin-bottom:18px;
+    .field {
+      margin-bottom: 18px;
     }
 
-    .field label{
-      display:block;
-      margin-bottom:8px;
-      font-size:13px;
-      color:#bdd2dc;
-      font-weight:700;
+    .field label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 13px;
+
+      color: #bdd2dc;
+
+      font-weight: 700;
     }
 
-    .field input{
-      width:100%;
-      height:50px;
-      border-radius:12px;
-      border:1px solid #294655;
-      background:#0c2535;
-      color:#f2fbff;
-      padding:0 15px;
-      outline:none;
-      font-size:15px;
+    .field input {
+      width: 100%;
+      height: 50px;
+
+      border-radius: 12px;
+
+      border: 1px solid #294655;
+
+      background: #0c2535;
+
+      color: #f2fbff;
+
+      padding: 0 15px;
+
+      outline: none;
+
+      font-size: 15px;
     }
 
-    .field input::placeholder{
-      color:#66808d;
+    .field input::placeholder {
+      color: #66808d;
     }
 
-    .field input:focus{
-      border-color:#25bfd4;
-      box-shadow:0 0 0 3px rgba(37,191,212,.10);
+    .field input:focus {
+      border-color: #25bfd4;
+
+      box-shadow:
+        0 0 0 3px rgba(37, 191, 212, 0.10);
     }
 
-    .login-button{
-      width:100%;
-      height:52px;
-      border:0;
-      border-radius:13px;
-      cursor:pointer;
-      color:#03131b;
-      background:linear-gradient(135deg,#59e0eb,#19afcf);
-      font-size:15px;
-      font-weight:900;
-      margin-top:5px;
-      box-shadow:0 12px 28px rgba(25,175,207,.20);
-      transition:.2s;
+    .login-button {
+      width: 100%;
+      height: 52px;
+
+      border: 0;
+
+      border-radius: 13px;
+
+      cursor: pointer;
+
+      color: #03131b;
+
+      background:
+        linear-gradient(
+          135deg,
+          #59e0eb,
+          #19afcf
+        );
+
+      font-size: 15px;
+
+      font-weight: 900;
+
+      margin-top: 5px;
+
+      box-shadow:
+        0 12px 28px rgba(25, 175, 207, 0.20);
+
+      transition: 0.2s;
     }
 
-    .login-button:hover{
-      transform:translateY(-1px);
-      filter:brightness(1.05);
+    .login-button:hover {
+      transform: translateY(-1px);
+
+      filter: brightness(1.05);
     }
 
-    .login-button:disabled{
-      opacity:.65;
-      cursor:not-allowed;
-      transform:none;
+    .login-button:disabled {
+      opacity: 0.65;
+
+      cursor: not-allowed;
+
+      transform: none;
     }
 
-    .register{
-      margin-top:24px;
-      text-align:center;
-      color:#8099a6;
-      font-size:14px;
+    .register {
+      margin-top: 24px;
+
+      text-align: center;
+
+      color: #8099a6;
+
+      font-size: 14px;
     }
 
-    .register button{
-      border:0;
-      background:none;
-      color:#5bdbea;
-      font-weight:800;
-      cursor:pointer;
-      margin-left:4px;
-      font-size:14px;
+    .register button {
+      border: 0;
+
+      background: none;
+
+      color: #5bdbea;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      margin-left: 4px;
+
+      font-size: 14px;
     }
 
-    .message{
-      min-height:20px;
-      margin-top:15px;
-      text-align:center;
-      font-size:13px;
-      line-height:1.5;
+    .message {
+      min-height: 20px;
+
+      margin-top: 15px;
+
+      text-align: center;
+
+      font-size: 13px;
+
+      line-height: 1.5;
     }
 
-    .message.error{
-      color:#ff9d9d;
+    .message.error {
+      color: #ff9d9d;
     }
 
-    .message.success{
-      color:#71e3b4;
+    .message.success {
+      color: #71e3b4;
     }
 
-    .footer{
-      margin-top:35px;
-      text-align:center;
-      color:#536e7b;
-      font-size:11px;
+    .footer {
+      margin-top: 35px;
+
+      text-align: center;
+
+      color: #536e7b;
+
+      font-size: 11px;
     }
 
-    @media(max-width:800px){
-      body{
-        padding:14px;
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+      body {
+        padding: 14px;
       }
 
-      .page{
-        grid-template-columns:1fr;
-        min-height:auto;
+      .page {
+        grid-template-columns: 1fr;
+
+        min-height: auto;
       }
 
-      .intro{
-        padding:40px 28px;
+      .intro {
+        padding: 40px 28px;
       }
 
-      .intro h1{
-        font-size:36px;
+      .intro h1 {
+        font-size: 36px;
       }
 
-      .login-area{
-        padding:38px 28px;
+      .login-area {
+        padding: 38px 28px;
       }
     }
 
-    @media(max-width:480px){
-      .brand-name{
-        font-size:28px;
+    @media (max-width: 480px) {
+
+      .brand-name {
+        font-size: 28px;
       }
 
-      .intro h1{
-        font-size:31px;
+      .intro h1 {
+        font-size: 31px;
       }
 
-      .intro p{
-        font-size:15px;
+      .intro p {
+        font-size: 15px;
       }
     }
   </style>
@@ -292,317 +414,448 @@
 
 <body>
 
-<main class="page">
+  <main class="page">
 
-  <section class="intro">
+    <!-- LEFT SIDE -->
 
-    <div class="brand">
-      <div class="brand-icon">✚</div>
-      <div class="brand-name">PACIENT<span>+</span></div>
-    </div>
+    <section class="intro">
 
-    <h1>
-      Komunikoni me
-      <span>personelin shëndetësor.</span>
-    </h1>
+      <div class="brand">
 
-    <p>
-      Një mënyrë e thjeshtë dhe e sigurt për të komunikuar me personelin
-      shëndetësor dhe për të marrë përgjigje për pyetjet tuaja.
-    </p>
+        <div class="brand-icon">
+          ✚
+        </div>
 
-    <div class="features">
+        <div class="brand-name">
+          PACIENT<span>+</span>
+        </div>
 
-      <div class="feature">
-        <div class="feature-icon">✓</div>
-        <span>Komunikim i drejtpërdrejtë me personelin</span>
       </div>
 
-      <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <span>Hyrje e sigurt në llogarinë tuaj</span>
-      </div>
+      <h1>
+        Komunikoni me
+        <span>personelin shëndetësor.</span>
+      </h1>
 
-      <div class="feature">
-        <div class="feature-icon">💬</div>
-        <span>Historiku i bisedave tuaja</span>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section class="login-area">
-
-    <div class="login-box">
-
-      <h2>Mirë se vini</h2>
-
-      <p class="subtitle">
-        Hyni në llogarinë tuaj për të vazhduar.
+      <p>
+        Një mënyrë e thjeshtë dhe e sigurt për të komunikuar
+        me personelin shëndetësor dhe për të marrë përgjigje
+        për pyetjet tuaja.
       </p>
 
-      <form id="loginForm">
+      <div class="features">
 
-        <div class="field">
-          <label for="email">Email</label>
+        <div class="feature">
 
-          <input
-            type="email"
-            id="email"
-            placeholder="Shkruani email-in"
-            autocomplete="email"
-            required
-          >
+          <div class="feature-icon">
+            ✓
+          </div>
+
+          <span>
+            Komunikim i drejtpërdrejtë me personelin
+          </span>
+
         </div>
 
-        <div class="field">
-          <label for="password">Fjalëkalimi</label>
+        <div class="feature">
 
-          <input
-            type="password"
-            id="password"
-            placeholder="Shkruani fjalëkalimin"
-            autocomplete="current-password"
-            required
-          >
+          <div class="feature-icon">
+            🔒
+          </div>
+
+          <span>
+            Hyrje e sigurt në llogarinë tuaj
+          </span>
+
         </div>
 
-        <button
-          class="login-button"
-          id="loginButton"
-          type="submit"
-        >
-          Hyr në PACIENT+
-        </button>
+        <div class="feature">
 
-        <div
-          class="message"
-          id="message"
-          aria-live="polite"
-        ></div>
+          <div class="feature-icon">
+            💬
+          </div>
 
-      </form>
+          <span>
+            Historiku i bisedave tuaja
+          </span>
 
-      <div class="register">
-        Nuk keni llogari?
-        <button
-          type="button"
-          id="registerButton"
-        >
-          Krijo llogari
-        </button>
+        </div>
+
       </div>
 
-      <div class="footer">
-        PACIENT+ · Healthcare Communication Platform
+    </section>
+
+
+    <!-- LOGIN -->
+
+    <section class="login-area">
+
+      <div class="login-box">
+
+        <h2>
+          Mirë se vini
+        </h2>
+
+        <p class="subtitle">
+          Hyni në llogarinë tuaj për të vazhduar.
+        </p>
+
+
+        <form id="loginForm">
+
+          <div class="field">
+
+            <label for="email">
+              Email
+            </label>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="Shkruani email-in"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="password">
+              Fjalëkalimi
+            </label>
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Shkruani fjalëkalimin"
+              autocomplete="current-password"
+              required
+            >
+
+          </div>
+
+
+          <button
+            class="login-button"
+            id="loginButton"
+            type="submit"
+          >
+            Hyr në PACIENT+
+          </button>
+
+
+          <div
+            class="message"
+            id="message"
+            aria-live="polite"
+          ></div>
+
+        </form>
+
+
+        <div class="register">
+
+          Nuk keni llogari?
+
+          <button
+            type="button"
+            id="registerButton"
+          >
+            Krijo llogari
+          </button>
+
+        </div>
+
+
+        <div class="footer">
+          PACIENT+ · Healthcare Communication Platform
+        </div>
+
       </div>
 
-    </div>
+    </section>
 
-  </section>
+  </main>
 
-</main>
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+  <!-- SUPABASE LIBRARY -->
 
-<script>
-  "use strict";
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
-  const SUPABASE_URL =
-    "https://izrkvynsdikpevdhdtef.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_6eexQFM_g7BCaLK9V_DuZQ_oxwFbmSK";
+  <!-- PACIENT+ LOGIN -->
 
-  const message = document.getElementById("message");
-  const loginForm = document.getElementById("loginForm");
-  const loginButton = document.getElementById("loginButton");
-  const registerButton = document.getElementById("registerButton");
+  <script>
 
-  function showMessage(text, type){
-    message.textContent = text;
-    message.className = "message " + (type || "");
-  }
+    "use strict";
 
-  function startSupabase(){
 
-    if(!window.supabase){
-      console.error("PACIENT+: Supabase library nuk u ngarkua.");
-      showMessage(
-        "Nuk u ngarkua lidhja me sistemin. Rifreskoni faqen.",
-        "error"
-      );
-      return null;
-    }
+    /* =========================================
+       SUPABASE CONFIGURATION
+    ========================================= */
 
-    try{
+    const SUPABASE_URL =
+      "https://izrkvynsdikpevdhdtef.supabase.co";
 
-      const client = window.supabase.createClient(
+    const SUPABASE_KEY =
+      "sb_publishable_6eexQFM_g7BCaLK9V_DuZQ_oxwFbmSK";
+
+
+    /* =========================================
+       CREATE SUPABASE CLIENT
+    ========================================= */
+
+    const client =
+      window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
+        SUPABASE_KEY
       );
 
-      console.log("PACIENT+: Supabase u inicializua.");
 
-      return client;
-
-    }catch(error){
-
-      console.error(
-        "PACIENT+: Gabim gjatë inicializimit:",
-        error
-      );
-
-      showMessage(
-        "Gabim gjatë lidhjes me sistemin.",
-        "error"
-      );
-
-      return null;
-    }
-  }
-
-  const supabaseClient = startSupabase();
-
-  loginForm.addEventListener("submit", async function(event){
-
-    event.preventDefault();
-
-    if(!supabaseClient){
-      showMessage(
-        "Lidhja me sistemin nuk është aktive.",
-        "error"
-      );
-      return;
-    }
-
-    const email =
-      document.getElementById("email").value.trim();
-
-    const password =
-      document.getElementById("password").value;
-
-    if(!email || !password){
-      showMessage(
-        "Plotësoni email-in dhe fjalëkalimin.",
-        "error"
-      );
-      return;
-    }
-
-    loginButton.disabled = true;
-    loginButton.textContent = "Po hyn...";
-    showMessage("", "");
-
-    try{
-
-      const result =
-        await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-
-      if(result.error){
-
-        console.error(
-          "PACIENT+ LOGIN ERROR:",
-          result.error
-        );
-
-        showMessage(
-          "Hyrja dështoi: " + result.error.message,
-          "error"
-        );
-
-        loginButton.disabled = false;
-        loginButton.textContent = "Hyr në PACIENT+";
-
-        return;
-      }
-
-      console.log(
-        "PACIENT+ LOGIN SUKSES:",
-        result.data
-      );
-
-      showMessage(
-        "Hyrja u krye me sukses.",
-        "success"
-      );
-
-      setTimeout(function(){
-        window.location.href = "patient.html";
-      },700);
-
-    }catch(error){
-
-      console.error(
-        "PACIENT+ LOGIN EXCEPTION:",
-        error
-      );
-
-      showMessage(
-        "Ndodhi një gabim gjatë hyrjes.",
-        "error"
-      );
-
-      loginButton.disabled = false;
-      loginButton.textContent = "Hyr në PACIENT+";
-    }
-
-  });
-
-  registerButton.addEventListener("click", function(){
-
-    showMessage(
-      "Regjistrimi i pacientëve do të aktivizohet në hapin tjetër.",
-      "success"
+    console.log(
+      "PACIENT+: Supabase client u krijua."
     );
 
-  });
 
-  async function checkExistingSession(){
+    /* =========================================
+       ELEMENTS
+    ========================================= */
 
-    if(!supabaseClient){
-      return;
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const registerButton =
+      document.getElementById("registerButton");
+
+    const message =
+      document.getElementById("message");
+
+
+    /* =========================================
+       MESSAGE
+    ========================================= */
+
+    function showMessage(text, type) {
+
+      message.textContent = text;
+
+      message.className =
+        "message " + (type || "");
+
     }
 
-    try{
 
-      const result =
-        await supabaseClient.auth.getSession();
+    /* =========================================
+       LOGIN
+    ========================================= */
 
-      if(
-        result.data &&
-        result.data.session
-      ){
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        if (!email || !password) {
+
+          showMessage(
+            "Plotësoni email-in dhe fjalëkalimin.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+          "Po hyn...";
+
+        showMessage("", "");
+
 
         console.log(
-          "PACIENT+: Sesion ekzistues."
+          "PACIENT+: Po provohet login..."
         );
 
-        /*
-          patient.html do të krijohet në hapin tjetër.
-        */
+
+        try {
+
+          const result =
+            await client.auth.signInWithPassword({
+
+              email: email,
+
+              password: password
+
+            });
+
+
+          const data = result.data;
+
+          const error = result.error;
+
+
+          /* ERROR */
+
+          if (error) {
+
+            console.error(
+              "PACIENT+ LOGIN ERROR:",
+              error
+            );
+
+
+            showMessage(
+              "Hyrja dështoi: " +
+              error.message,
+              "error"
+            );
+
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+              "Hyr në PACIENT+";
+
+            return;
+          }
+
+
+          /* SUCCESS */
+
+          console.log(
+            "PACIENT+: LOGIN OK",
+            data
+          );
+
+
+          showMessage(
+            "Hyrja u krye me sukses.",
+            "success"
+          );
+
+
+          /*
+            Për momentin shkojmë te
+            patient.html.
+
+            Këtë faqe do ta krijojmë
+            në hapin tjetër.
+          */
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                "patient.html";
+
+            },
+            700
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "PACIENT+ LOGIN EXCEPTION:",
+            error
+          );
+
+
+          showMessage(
+            "Ndodhi një gabim gjatë hyrjes.",
+            "error"
+          );
+
+
+          loginButton.disabled = false;
+
+          loginButton.textContent =
+            "Hyr në PACIENT+";
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       REGISTER BUTTON
+    ========================================= */
+
+    registerButton.addEventListener(
+      "click",
+      function() {
+
+        showMessage(
+          "Regjistrimi i pacientëve do të aktivizohet në hapin tjetër.",
+          "success"
+        );
+
+      }
+    );
+
+
+    /* =========================================
+       CHECK EXISTING SESSION
+    ========================================= */
+
+    async function checkSession() {
+
+      try {
+
+        const result =
+          await client.auth.getSession();
+
+
+        if (
+          result.data &&
+          result.data.session
+        ) {
+
+          console.log(
+            "PACIENT+: Sesion ekzistues."
+          );
+
+        }
 
       }
 
-    }catch(error){
+      catch (error) {
 
-      console.error(
-        "PACIENT+ SESSION ERROR:",
-        error
-      );
+        console.error(
+          "PACIENT+ SESSION ERROR:",
+          error
+        );
+
+      }
 
     }
-  }
 
-  checkExistingSession();
 
-</script>
+    checkSession();
+
+  </script>
 
 </body>
 </html>
-```
